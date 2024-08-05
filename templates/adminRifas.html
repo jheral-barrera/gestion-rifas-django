@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Administrar Rifas</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body class='vh-100 mh-100 '>
+    <header class='bg-secondary shadow py-2 px-3 d-flex flex-row justify-content-between  align-content-center '>
+      <h1 class='text-center text-white display-4 fs-1 p-0 m-0 '>RIFAS DJANGO</h1>
+      <nav class='p-0 m-0 align-self-center '>
+          <a name="" id="" class="btn btn-outline-light " href="/" role="button">Inicio</a>
+          <a name="" id="" class="btn btn-outline-light " href="/administrarRifas/" role="button">Administrar Rifas</a>
+          <a name="" id="" class="btn btn-outline-light " href="/administrarPremios/" role="button">Administrar Premios</a>
+          <a name="" id="" class="btn btn-outline-light " href="/admin/" role="button">Administrador</a>
+      </nav>
+    </header>
+    <main>
+      {% if messages %}
+        <div class='p-2'>
+            {% for message in messages %}
+              <div 
+                  {% if 'success' in message.tags %} class='alert alert-success'
+                  {% elif 'error' in message.tags %} class='alert alert-danger'{% endif %}>
+                  {{message}}
+              </div>
+            {% endfor %}
+        </div>
+      {% endif %}
+        <section class='p-4 '>
+            <article class='py-4 bg-light rounded-2 border border-black-50  shadow p-5 mb-3'>
+                <h1 class='display-6 fs-2 '>Administrar Rifas </h1>
+  
+                <div class="table-responsive overflow-auto " style='max-height: 200px;'>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Fecha de Inicio</th>
+                                <th scope="col">Fecha de Término</th>
+                                <th scope="col">Cantidad de Números</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">--</th>
+                                <th scope="col">--</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% if rifas %}
+                            {% for rifa in rifas %}
+                              <tr>
+                                <td>{{ rifa.nombre_rifa }}</td>
+                                <td>{{ rifa.descripcion_rifa }}</td>
+                                <td>{{ rifa.fecha_inicio_rifa }}</td>
+                                <td>{{ rifa.fecha_termino_rifa }}</td>
+                                <td>{{ rifa.cantidad_numeros_rifa }}</td>
+                                <td>{{ rifa.estado_rifa }}</td>
+                                <td><a class="btn btn-secondary p-1 m-0 " href="/administrarRifas/actualizar/{{rifa.id}}" role="button">Editar</a></td>
+                                <td><a class="btn btn-secondary p-1 m-0 " href="/administrarRifas/{{rifa.id}}" role="button">Eliminar</a></td>
+                              </tr>
+                            {% endfor %}
+                          {% else %}
+                            <h3 class='display-4 fs-2 py-4 m-0 '>No hay rifas registradas por ahora...</h3>
+                          {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+            <article class='py-4 bg-light rounded-2 border border-black-50  shadow p-5'>
+                {% if actualizando %}
+                  <h1 class='display-6 fs-2 '>Editando {{rifa_form.instance.nombre_rifa}} </h1>
+                {% else %}
+                  <h1 class='display-6 fs-2 '>Agregar una rifa</h1>
+                {% endif %}
+                <form method='POST'>
+                    {% csrf_token %}
+                    {{rifa_form.as_p}}
+                    <button type="submit" class="btn btn-secondary">Guardar Rifa</button>
+                </form>
+            </article>
+        </section>
+  
+    </main>
+  <footer>
+    <!-- place footer here -->
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>

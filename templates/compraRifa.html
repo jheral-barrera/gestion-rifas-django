@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Comprar numero de la Rifa</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+
+<body class='vh-100 mh-100 '>
+    <header class='bg-secondary shadow py-2 px-3 d-flex flex-row justify-content-between  align-content-center '>
+        <h1 class='text-center text-white display-4 fs-1 p-0 m-0 '>RIFAS DJANGO</h1>
+        <nav class='p-0 m-0 align-self-center '>
+          <a name="" id="" class="btn btn-outline-light " href="/" role="button">Inicio</a>
+          <a name="" id="" class="btn btn-outline-light " href="/administrarRifas/" role="button">Administrar Rifa</a>
+          <a name="" id="" class="btn btn-outline-light " href="/administrarPremios/" role="button">Administrar Premios</a>
+          <a name="" id="" class="btn btn-outline-light " href="/admin/" role="button">Administrador</a>
+        </nav>
+    </header>
+
+    <main class="">
+        {% if messages %}
+                <div class='p-2'>
+                    {% for message in messages %}
+                    <div 
+                        {% if 'success' in message.tags %} class='alert alert-success'
+                        {% elif 'error' in message.tags %} class='alert alert-danger'{% endif %}>
+                        {{message}}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        <section class='p-4 d-flex flex-row justify-content-between gap-3 '>
+            <article class='py-4 bg-light rounded-2 border border-black-50  shadow p-5'>
+                <h1 class='display-6 fs-2 pb-2'>Números Disponibles:</h1>
+                <div class='d-flex flex-row justify-content-between gap-3 flex-wrap '>
+                    {% for numero in numeros_disponibles %}
+                    {% comment %} Ultima modificacion {% endcomment %}
+                        {% if numero in numeros_comprados %}
+                            <div class='border border-black-50 rounded d-flex align-items-center justify-content-center p-1 alert alert-danger ' style='height: 30px; width: 30px;'>
+                                <span class="numero-estilo">{{ numero }}</span>
+                            </div>
+                        {% else %}
+                            <div class='border border-black-50 rounded d-flex align-items-center justify-content-center p-1 alert alert-success ' style='height: 30px; width: 30px;'>
+                                <span class="numero-estilo">{{ numero }}</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </article>
+        </section>
+        <section class='p-4 d-flex flex-row justify-content-between gap-3 '>
+            <!-- Mostrar información de la rifa -->
+            <article class='py-4 bg-light rounded-2 border border-black-50  shadow p-5 flex-grow-1 '>
+                <h1 class='display-6 fs-2 '>Datos del comprador</h1>
+                    <form method='POST'>
+                        {% csrf_token %}
+                        {{compra_form.as_p}}
+                        <button type="submit" class="btn btn-secondary">Registrar Comprador</button>
+                    </form>
+            </article>
+            <article class='py-4 bg-light rounded-2 border border-black-50  shadow p-5 flex-grow-1 overflow-auto '>
+                {% if numero_form.errors %}
+                    <div class="alert alert-danger ">
+                        {% for field, error in numero_form.errors.items %}
+                            {% if field == 'codigo_pago' %}
+                                <p>{{ error }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <h1 class='display-6 fs-2'>Comprar un numero</h1>
+                <form method='POST'>
+                    {% csrf_token %}
+                        {% for field in numero_form.visible_fields %}
+                            {{ field.label_tag }}
+                            <p>
+                                {{ field }}
+                            </p>
+                        {% endfor %}
+                    <button type="submit" class="btn btn-secondary">Comprar Numero</button>
+                </form>
+            </article>
+        </section>
+    </main>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

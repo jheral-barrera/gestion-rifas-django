@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Django Rifa</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body class='vh-100 mh-100 '>
+  <header class='bg-secondary shadow py-2 px-3 d-flex flex-row justify-content-between  align-content-center '>
+      <h1 class='text-center text-white display-4 fs-1 p-0 m-0 '>RIFAS DJANGO</h1>
+      <nav class='p-0 m-0 align-self-center '>
+        <a name="" id="" class="btn btn-outline-light " href="/" role="button">Inicio</a>
+        <a name="" id="" class="btn btn-outline-light " href="/administrarRifas/" role="button">Administrar Rifa</a>
+        <a name="" id="" class="btn btn-outline-light " href="/administrarPremios/" role="button">Adminstrar Premios</a>
+        <a name="" id="" class="btn btn-outline-light " href="/admin/" role="button">Administrador</a>
+      </nav>
+  </header>
+  <main>
+      <section class='p-4 '>
+          <article class='py-4 bg-light rounded-2 border border-black-50  shadow p-5'>
+              <h1 class='display-6 fs-2 '>Lista de Rifas</h1>
+
+              <div class="table-responsive">
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th scope="col">Nombre</th>
+                              <th scope="col">Descripción</th>
+                              <th scope="col">Fecha de Inicio</th>
+                              <th scope="col">Fecha de Término</th>
+                              <th scope="col">Cantidad de Números</th>
+                              <th scope="col">Estado</th>
+                              <th scope="col">--</th>
+                              <th scope="col">--</th>
+                              <th scope="col">--</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% if rifas %}
+                          {% for rifa in rifas %}
+                            <tr>
+                              <td>{{ rifa.nombre_rifa }}</td>
+                              <td>{{ rifa.descripcion_rifa }}</td>
+                              <td>{{ rifa.fecha_inicio_rifa }}</td>
+                              <td>{{ rifa.fecha_termino_rifa }}</td>
+                              <td>{{ rifa.cantidad_numeros_rifa }}</td>
+                              <td>{{ rifa.estado_rifa }}</td>
+                              <td><a class="btn btn-secondary p-1 m-0 " href="/detalleRifa/{{rifa.id}}" role="button">Detalles</a></td>
+                              {% if rifa.estado_rifa == 'finalizada' %}
+                              {% else %}
+                                <td><a class="btn btn-secondary p-1 m-0 " href="/compraRifa/{{rifa.id}}" role="button">Comprar</a></td>
+                              {% endif %}
+                              {% if rifa.estado_rifa == 'finalizada' %}
+                                <td><a class="btn btn-secondary p-1 m-0 " href="/resultadosRifa/{{rifa.id}}" role="button">Resultados</a></td>
+                              {% else %}
+                                <td><a class="btn btn-secondary p-1 m-0 " href="/finalizarRifa/{{rifa.id}}" role="button">Finalizar</a></td>
+                              {% endif %}
+                            </tr>
+                          {% endfor %}
+                        {% else %}
+                          <h3 class='display-4 fs-2 py-4 m-0 '>No hay rifas registradas por ahora...</h3>
+                        {% endif %}
+                      </tbody>
+                  </table>
+              </div>
+          </article>
+      </section>
+  </main>
+  <footer>
+      <!-- place footer here -->
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+      crossorigin="anonymous"></script>
+</body>
+
+</html>
